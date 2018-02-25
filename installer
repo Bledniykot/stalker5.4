@@ -1,0 +1,33 @@
+#!/bin/bash
+
+ROOT=/var/www
+STALKER=/var/www/stalker_portal
+SERVER=$STALKER/server
+APACHE=/etc/apache2/sites-available/
+AP_CON=$APACHE/000-default.conf
+NGINX=/etc/nginx/sites-available/
+sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get install -y -u apache2 nginx memcached mysql-server php5 php5-mysql php-pear nodejs upstart && sudo pear$
+sudo apt-get install unzip
+sudo apt-get install sed
+mkdir $ROOT
+cd $ROOT
+wget http://download.middleware-stalker.com/downloads/d88496a50694aa179cf241eb405770d3/ministra-5.4.0.zip
+unzip ministra-5.4.0.zip
+mysql -u root -p mysql <<< " create database stalker_db; GRANT ALL PRIVILEGES ON stalker_db.* TO stalker@localhost IDENTIFIED BY '1' WITH GRANT OPTION; exit "
+sed '/max_allowed_packet =/c max_allowed_packet = 32M' /etc/mysql/my.cnf
+php5enmod mcrypt
+sed '/short_open_tag =/c short_open_tag = On' /etc/php5/apache2/php.ini
+cd $SERVER
+touch ./custom.ini
+a2enmod rewrite
+apt-get purge libapache2-mod-php5filter
+cat /dev/null > AP_CON
+rm AP_CON
+cp /home/vova/000-default.conf $APACHE
+sed '/Listen/c Listen 88' /etc/apache2/ports.conf
+service apache2 restart
+rm $NGINX/default
+cp /home/vova/default $NGINX
+service nginx restart
+cd $STALKER/deploy
+phing
