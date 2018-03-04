@@ -1,0 +1,1 @@
+sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get install -y -u apache2 nginx memcached mysql-server php5 php5-mysql php-pear nodejs upstart && sudo pear channel-discover pear.phing.info && sudo pear install -Z phing/phing
