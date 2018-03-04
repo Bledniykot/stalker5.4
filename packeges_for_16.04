@@ -1,0 +1,1 @@
+sudo apt-get install nginx memcached mysql-server php php-mysql php-pear nodejs libapache2-mod-php && sudo pear channel-discover pear.phing.info && sudo pear install -Z phing/phing
